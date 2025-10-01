@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-TecnoRaeeApplication<tecnoRAEE>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "Grupo8.tecnoRAEE.TecnoRaeeApplication",
+            "projectName": "tecnoRAEE",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}
