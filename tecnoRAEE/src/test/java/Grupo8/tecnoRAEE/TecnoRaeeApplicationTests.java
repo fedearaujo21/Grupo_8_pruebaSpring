@@ -1,4 +1,4 @@
-package Grupo8.tecnoRAEE;
+package grupo8.tecnoRAEE;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
