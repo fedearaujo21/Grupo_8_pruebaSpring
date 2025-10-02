@@ -15,8 +15,13 @@ public class ResiduoService {
         this.residuoImp=residuoImp;
     }
 
-    public ResponseEntity<List<Residuo>> listarResiduosValidos(){
+    public ResponseEntity<List<ResiduoDTO>> listarResiduosValidos() {
         List<Residuo> residuosValidos = residuoImp.getResiduos();
-        return new ResponseEntity<>(residuosValidos, HttpStatus.OK);
+
+        List<ResiduoDTO> res = residuosValidos.stream()
+                .map(r -> new ResiduoDTO(r.getNombre(), r.getCodigo()))
+                .toList();
+        return new ResponseEntity<>(res, HttpStatus.OK);
     }
+
 }
