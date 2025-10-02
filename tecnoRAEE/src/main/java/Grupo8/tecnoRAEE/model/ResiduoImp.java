@@ -15,17 +15,16 @@ public class ResiduoImp implements ResiduoDao {
     }
 
     @Override
-    public List<Residuo> listarValidos() {
+    public List<Residuo> listarValidos() throws RuntimeException, ResiduoDAOException {
         List<Residuo> res;
         String sql = "Select * from residuos where es_valido=1;";
         try (Connection con = Sql2oDAO.getSql2o().open()) {
             res = con
                     .createQuery(sql)
                     .executeAndFetch(Residuo.class);
+            return res;
         } catch (Exception e) {
-            throw new InternalError();
+            throw new ResiduoDAOException("Error de conexion", e);
         }
-        return res;
     }
-
 }
