@@ -2,18 +2,17 @@ package grupo8.tecnoRAEE.model;
 
 import java.util.List;
 
+import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+
 @Service
+@AllArgsConstructor
 public class ResiduoService {
     
     private final ResiduoImp residuoImp;
-
-    public ResiduoService(ResiduoImp residuoImp){
-        this.residuoImp=residuoImp;
-    }
 
     public ResponseEntity<List<ResiduoDTO>> listarResiduosValidos() {
         List<Residuo> residuosValidos = residuoImp.getResiduos();
