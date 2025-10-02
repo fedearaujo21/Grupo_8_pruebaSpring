@@ -4,7 +4,7 @@ import org.sql2o.Sql2o;
 
 
 public class Sql2oDAO {
-    private final Sql2o sql2o;
+    private static Sql2o sql2o;
 
     public static Sql2o getSql2o() {
         if (sql2o == null) {

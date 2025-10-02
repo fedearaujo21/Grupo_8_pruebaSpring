@@ -7,5 +7,5 @@ import lombok.Data;
 @Data
 public class ResiduoDTO {
     private String nombre;
-    private long codigo;
+    private String codigo;
 }
