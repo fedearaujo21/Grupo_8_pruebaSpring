@@ -1,6 +1,6 @@
-package Grupo8.tecnoRAEE.dao;
+package grupo8.tecnoRAEE.dao;
 
-import Grupo8.tecnoRAEE.model.Residuo;
+import grupo8.tecnoRAEE.model.Residuo;
 
 import java.util.List;
 

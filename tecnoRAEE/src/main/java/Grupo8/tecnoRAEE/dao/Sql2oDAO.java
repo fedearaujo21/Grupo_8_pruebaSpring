@@ -1,4 +1,4 @@
-package Grupo8.tecnoRAEE.dao;
+package grupo8.tecnoRAEE.dao;
 
 import org.sql2o.Sql2o;
 
@@ -8,10 +8,11 @@ public class Sql2oDAO {
 
     public static Sql2o getSql2o() {
         if (sql2o == null) {
-            sql2o = new Sql2o("jdbc:mysql://localhost:3306", "root", "");
+            sql2o = new Sql2o("jdbc:mysql://localhost:3306/tecno_raee_db", "root", "");
+
         }
         return sql2o;
     }
-    
+
 }
 

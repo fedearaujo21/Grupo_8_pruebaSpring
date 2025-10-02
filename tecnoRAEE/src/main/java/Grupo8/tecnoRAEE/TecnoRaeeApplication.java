@@ -1,4 +1,4 @@
-package Grupo8.tecnoRAEE;
+package grupo8.tecnoRAEE;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
