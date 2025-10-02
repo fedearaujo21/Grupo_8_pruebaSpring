@@ -1,17 +1,16 @@
-package grupo8.tecnoRAEE.controller;
+package Grupo8.tecnoRAEE.controller;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
 
-import grupo8.tecnoRAEE.model.Residuo;
-import grupo8.tecnoRAEE.model.ResiduoDTO;
+import Grupo8.tecnoRAEE.model.ResiduoDTO;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import grupo8.tecnoRAEE.model.ResiduoService;
+import Grupo8.tecnoRAEE.model.ResiduoService;
 
 @RestController
 public class TecnoRAEEController {
