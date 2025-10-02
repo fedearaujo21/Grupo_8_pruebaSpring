@@ -2,9 +2,8 @@ package Grupo8.tecnoRAEE.dto;
 
 import java.util.List;
 
-import Grupo8.tecnoRAEE.dao.ResiduoDao;
-import Grupo8.tecnoRAEE.dao.Sql2oDAO;
-import Grupo8.tecnoRAEE.model.Residuo;
+import Grupo8.tecnoRAEE.dao.*;
+import Grupo8.tecnoRAEE.model.*;
 import org.springframework.stereotype.Service;
 import org.sql2o.Connection;
 
