@@ -1,6 +1,10 @@
-package grupo8.tecnoRAEE.model;
+package Grupo8.tecnoRAEE.dto;
 
 import java.util.List;
+
+import Grupo8.tecnoRAEE.dao.ResiduoDao;
+import Grupo8.tecnoRAEE.dao.Sql2oDAO;
+import Grupo8.tecnoRAEE.model.Residuo;
 import org.springframework.stereotype.Service;
 import org.sql2o.Connection;
 
@@ -24,7 +28,7 @@ public class ResiduoImp implements ResiduoDao {
                     .executeAndFetch(Residuo.class);
             return res;
         } catch (Exception e) {
-            throw new ResiduoDAOException("Error de conexion", e);
+            throw new InternalError("Error de conexion", e);
         }
     }
 }

@@ -1,7 +1,9 @@
-package Grupo8.tecnoRAEE.model;
+package Grupo8.tecnoRAEE.service;
 
 import java.util.List;
 
+import Grupo8.tecnoRAEE.dto.ResiduoDTO;
+import Grupo8.tecnoRAEE.model.Residuo;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

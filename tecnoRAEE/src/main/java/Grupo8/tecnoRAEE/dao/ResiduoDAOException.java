@@ -1,4 +1,4 @@
-package grupo8.tecnoRAEE.model;
+package Grupo8.tecnoRAEE.dao;
 
 public class ResiduoDAOException extends Exception {
 

@@ -1,4 +1,4 @@
-package Grupo8.tecnoRAEE.model;
+package Grupo8.tecnoRAEE.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

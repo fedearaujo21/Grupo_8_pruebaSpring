@@ -1,4 +1,4 @@
-package Grupo8.tecnoRAEE.model;
+package Grupo8.tecnoRAEE.dao;
 
 import org.sql2o.Sql2o;
 
