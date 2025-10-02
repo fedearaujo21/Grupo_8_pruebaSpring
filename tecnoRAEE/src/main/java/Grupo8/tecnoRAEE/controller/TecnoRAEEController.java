@@ -5,15 +5,15 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
 
-import grupo8.tecnoRAEE.model.Residuo;
+
 import grupo8.tecnoRAEE.model.ResiduoDTO;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
 
 import grupo8.tecnoRAEE.model.ResiduoService;
 
-@RestController
+@Controller
 public class TecnoRAEEController {
     
     private final ResiduoService service;
@@ -23,12 +23,11 @@ public class TecnoRAEEController {
     }
     
     @GetMapping("/")
-    public String home() throws IOException{
-        String htmlPath = "src/main/resources/static/index.html";
-        return Files.readString(Paths.get(htmlPath));
+    public String index(){
+        return "index";
     }
 
-    @GetMapping("/Validos")
+    @GetMapping("/validos")
     public ResponseEntity<List<ResiduoDTO>> getResiduosValidos(){
         return service.listarResiduosValidos();
     }

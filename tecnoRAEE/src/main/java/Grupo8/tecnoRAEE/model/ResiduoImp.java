@@ -1,9 +1,6 @@
 package grupo8.tecnoRAEE.model;
 
 import java.util.List;
-import java.util.concurrent.TimeoutException;
-
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 import org.sql2o.Connection;
 
