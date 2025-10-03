@@ -8,5 +8,5 @@ public class Residuo {
     private String nombre;
     private String codigo;
     private String descripcion;
-    private boolean esValido;
+    private boolean es_valido;
 }

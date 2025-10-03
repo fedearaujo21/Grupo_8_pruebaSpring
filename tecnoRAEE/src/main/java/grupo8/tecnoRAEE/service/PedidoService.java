@@ -47,7 +47,7 @@ public class PedidoService {
                     .findFirst()
                     .orElseThrow(() -> new IllegalArgumentException("Residuo no encontrado"));
 
-            if (!residuo.isEsValido()) {
+            if (!residuo.isEs_valido()) {
                 throw new IllegalArgumentException("Residuo no válido: " + residuo.getNombre());
             }
 
