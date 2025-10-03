@@ -32,7 +32,7 @@ public class ResiduoImp implements ResiduoDao {
 
     @Override
     public List<Residuo> getResiduos() {
-        String sql = "SELECT id, nombre, codigo, descripcion, es_valido AS esValido " +
+        String sql = "SELECT id, nombre, codigo, descripcion, es_valido AS es_valido " +
                 "FROM residuos;";
         try (Connection con = sql2o.open()) {
             return con.createQuery(sql)

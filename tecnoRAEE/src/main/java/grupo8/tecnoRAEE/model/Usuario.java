@@ -9,5 +9,5 @@ public class Usuario {
     private String email;
     private String password;
     private String tipo;
-    private Date fechaCreacion;
+    private Date fecha_creacion;
 }
