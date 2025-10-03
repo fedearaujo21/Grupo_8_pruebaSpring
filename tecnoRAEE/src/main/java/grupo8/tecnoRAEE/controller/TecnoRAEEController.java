@@ -21,13 +21,11 @@ public class TecnoRAEEController {
     private final ResiduoService service;
 
     public TecnoRAEEController(ResiduoService service){
-        System.out.println(">>> TecnoRAEEController inicializado <<<");
         this.service = service;
     }
 
     @GetMapping("/validos")
     public ResponseEntity<List<ResiduoDTO>> getResiduosValidos() {
-        System.out.println(">>> Entrando a /api/validos <<<");
         return service.listarResiduosValidos();
     }
 }
