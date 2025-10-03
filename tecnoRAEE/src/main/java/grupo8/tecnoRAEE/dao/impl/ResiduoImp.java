@@ -19,7 +19,7 @@ public class ResiduoImp implements ResiduoDao {
 
     @Override
     public List<Residuo> listarValidos() throws Exception {
-        String sql = "SELECT id, nombre, codigo, descripcion, es_valido AS esValido " +
+        String sql = "SELECT nombre, codigo" +
                 "FROM residuos WHERE es_valido = 1;";
         try (Connection con = sql2o.open()) {
             return con.createQuery(sql)
