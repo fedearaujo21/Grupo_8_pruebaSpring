@@ -6,32 +6,28 @@ import java.nio.file.Paths;
 import java.util.List;
 
 
-import grupo8.tecnoRAEE.model.*;
-import grupo8.tecnoRAEE.service.*;
 import grupo8.tecnoRAEE.dto.*;
+import grupo8.tecnoRAEE.service.ResiduoService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 
 @RestController
+@RequestMapping("/api")
 public class TecnoRAEEController {
-    
+
     private final ResiduoService service;
 
     public TecnoRAEEController(ResiduoService service){
-        this.service=service;
-    }
-    
-    @GetMapping("/")
-    public String home() throws IOException{
-        String htmlPath = "src/main/resources/templates/index.html";
-        return Files.readString(Paths.get(htmlPath));
+        System.out.println(">>> TecnoRAEEController inicializado <<<");
+        this.service = service;
     }
 
     @GetMapping("/validos")
-    public ResponseEntity<List<ResiduoDTO>> getResiduosValidos(){
+    public ResponseEntity<List<ResiduoDTO>> getResiduosValidos() {
+        System.out.println(">>> Entrando a /api/validos <<<");
         return service.listarResiduosValidos();
     }
-    
 }
