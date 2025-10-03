@@ -6,6 +6,6 @@ import java.util.List;
 public interface PedidoDao {
     List<PedidoRecoleccion> listarPedidos() throws Exception;
     PedidoRecoleccion buscarPorId(Long id) throws Exception;
-    void guardar(PedidoRecoleccion pedido) throws Exception;
+    Long guardar(PedidoRecoleccion pedido) throws Exception;
     List<PedidoRecoleccion> listarPorUsuario(Long usuarioId) throws Exception;
 }

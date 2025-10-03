@@ -40,11 +40,11 @@ public class PedidoImp implements PedidoDao {
     }
 
     @Override
-    public void guardar(PedidoRecoleccion pedido) throws Exception {
+    public Long guardar(PedidoRecoleccion pedido) throws Exception {
         String sql = "INSERT INTO pedidos_recoleccion (usuario_id, fecha, estado, direccion_calle, direccion_numero, direccion_barrio, direccion_cod_postal) " +
                 "VALUES (:usuario_id, :fecha, :estado, :direccion_calle, :direccion_numero, :direccion_barrio, :direccion_cod_postal)";
         try (Connection con = sql2o.open()) {
-            con.createQuery(sql)
+            Long pedidoid= con.createQuery(sql,true)
                     .addParameter("usuario_id", pedido.getUsuario().getId())
                     .addParameter("fecha", pedido.getFecha())
                     .addParameter("estado", pedido.getEstado())
@@ -52,7 +52,9 @@ public class PedidoImp implements PedidoDao {
                     .addParameter("direccion_numero", pedido.getDireccionNumero())
                     .addParameter("direccion_barrio", pedido.getDireccionBarrio())
                     .addParameter("direccion_cod_postal", pedido.getDireccionCodPostal())
-                    .executeUpdate();
+                    .executeUpdate()
+                    .getKey(Long.class);
+            return pedidoid;
         } catch (Exception e) {
             throw new Exception("Error guardando pedido", e);
         }

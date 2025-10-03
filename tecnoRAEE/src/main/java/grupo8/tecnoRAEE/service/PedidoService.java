@@ -36,8 +36,11 @@ public class PedidoService {
         pedido.setDireccionBarrio(request.getDireccionBarrio());
         pedido.setDireccionCodPostal(request.getDireccionCodPostal());
 
-        // Guardar pedido en BD y setear id generado
-        pedidoDao.guardar(pedido);
+        // Guardar pedido en BD y devolvemos el id del pedido
+        Long pedidoid = pedidoDao.guardar(pedido);
+
+        //seteamos el id generado para cargar en el item
+        pedido.setId(pedidoid);
 
         // 3. Crear items
         List<ItemPedido> items = new ArrayList<>();
@@ -56,6 +59,7 @@ public class PedidoService {
             }
 
             ItemPedido item = new ItemPedido();
+            System.out.println("el id es " +pedidoid);
             item.setPedido(pedido);
             item.setResiduo(residuo);
             item.setCantidad(itemDTO.getCantidad());
