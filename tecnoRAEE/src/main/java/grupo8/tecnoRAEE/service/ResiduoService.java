@@ -19,7 +19,6 @@ public class ResiduoService {
     public ResponseEntity<List<ResiduoDTO>> listarResiduosValidos() {
         try {
             List<Residuo> residuosValidos = residuoDao.listarValidos();
-            System.out.println(">>> Service recibió: " + residuosValidos.size() + " registros");
 
             List<ResiduoDTO> res = residuosValidos.stream()
                     .map(r -> new ResiduoDTO(r.getNombre(), r.getCodigo()))
