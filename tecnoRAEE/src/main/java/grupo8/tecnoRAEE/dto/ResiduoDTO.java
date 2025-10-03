@@ -6,6 +6,8 @@ import lombok.Data;
 @AllArgsConstructor
 @Data
 public class ResiduoDTO {
+    private Long id;
+    private String descripcion;
     private String nombre;
     private String codigo;
 }

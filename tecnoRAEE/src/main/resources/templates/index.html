@@ -3,48 +3,322 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TecnoRAEE</title>
+    <title>TecnoRAEE - Plataforma de Gestión</title>
+    <script src="https://cdn.tailwindcss.com"></script>
     <style>
+        /* Estilos personalizados adicionales */
         body {
             background: linear-gradient(135deg, #e0eafc 0%, #cfdef3 100%);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh;
-            margin: 0;
             font-family: 'Segoe UI', Arial, sans-serif;
         }
-        .container {
-            background: #fff;
-            padding: 2rem 3rem;
-            border-radius: 16px;
-            box-shadow: 0 4px 24px rgba(0,0,0,0.08);
-            text-align: center;
+        /* Ocultar vistas por defecto */
+        .view {
+            display: none;
         }
-        h1 {
-            color: #2a5298;
-            margin-bottom: 1rem;
-            font-size: 2.5rem;
-            letter-spacing: 2px;
+        /* Clase para mostrar la vista activa */
+        .view.active {
+            display: block;
         }
-        img {
-            width: 120px;
-            height: 120px;
-            object-fit: contain;
-            margin-bottom: 1rem;
+        /* Animación de entrada suave */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
-        p {
-            color: #333;
-            font-size: 1.2rem;
+        .view.active {
+            animation: fadeIn 0.5s ease-out forwards;
         }
     </style>
 </head>
-<body>
-    <div class="container">
-        <img src="/templates/tecnoraee_icon.png" alt="TecnoRAEE Icon">
-        <h1>Bienvenido a TecnoRAEE</h1>
-        <p>Tu plataforma para la gestión responsable de residuos electrónicos.</p>
+<body class="flex items-center justify-center min-h-screen p-4">
+
+<div class="w-full max-w-4xl mx-auto">
+    <!-- VISTA PRINCIPAL (BIENVENIDA) -->
+    <div id="main-view" class="view active">
+        <div class="bg-white p-8 sm:p-12 rounded-2xl shadow-lg text-center">
+            <img src="/templates/tecnoraee_icon.png" alt="TecnoRAEE Icon" class="w-24 h-24 object-contain mx-auto mb-4" onerror="this.style.display='none'">
+            <h1 class="text-4xl sm:text-5xl font-bold text-blue-800 mb-2">Bienvenido a TecnoRAEE</h1>
+            <p class="text-gray-600 text-lg mb-8">Tu plataforma para la gestión responsable de residuos electrónicos.</p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <button id="btn-consultar" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg shadow-md transition-transform transform hover:scale-105">
+                    Consultar Residuos Válidos
+                </button>
+                <button id="btn-solicitar" class="bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-lg shadow-md transition-transform transform hover:scale-105">
+                    Solicitar Recolección
+                </button>
+            </div>
+        </div>
     </div>
+
+    <!-- VISTA DE LISTA DE RESIDUOS -->
+    <div id="lista-residuos-view" class="view">
+        <div class="bg-white p-8 rounded-2xl shadow-lg">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-3xl font-bold text-blue-800">Residuos Aceptados</h2>
+                <button class="btn-volver bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-lg">Volver</button>
+            </div>
+            <div id="residuos-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Los residuos se cargarán aquí dinámicamente -->
+            </div>
+        </div>
+    </div>
+
+    <!-- VISTA DE FORMULARIO DE PEDIDO -->
+    <div id="formulario-pedido-view" class="view">
+        <div class="bg-white p-8 rounded-2xl shadow-lg">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-3xl font-bold text-green-800">Solicitar Nueva Recolección</h2>
+                <button class="btn-volver bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-lg">Volver</button>
+            </div>
+            <form id="pedido-form">
+                <!-- Datos del Pedido -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                    <div>
+                        <label for="usuarioId" class="block text-gray-700 font-semibold mb-2">ID de Usuario</label>
+                        <input type="number" id="usuarioId" class="w-full p-3 border border-gray-300 rounded-lg" required placeholder="Ej: 2">
+                    </div>
+                    <div>
+                        <label for="direccionCalle" class="block text-gray-700 font-semibold mb-2">Calle</label>
+                        <input type="text" id="direccionCalle" class="w-full p-3 border border-gray-300 rounded-lg" required placeholder="Ej: Av. Corrientes">
+                    </div>
+                    <div>
+                        <label for="direccionNumero" class="block text-gray-700 font-semibold mb-2">Número</label>
+                        <input type="number" id="direccionNumero" class="w-full p-3 border border-gray-300 rounded-lg" required placeholder="Ej: 5678">
+                    </div>
+                    <div>
+                        <label for="direccionBarrio" class="block text-gray-700 font-semibold mb-2">Barrio</label>
+                        <input type="text" id="direccionBarrio" class="w-full p-3 border border-gray-300 rounded-lg" placeholder="Ej: Almagro">
+                    </div>
+                    <div>
+                        <label for="direccionCodPostal" class="block text-gray-700 font-semibold mb-2">Código Postal</label>
+                        <input type="text" id="direccionCodPostal" class="w-full p-3 border border-gray-300 rounded-lg" required placeholder="Ej: C1194">
+                    </div>
+                </div>
+
+                <!-- Items del Pedido -->
+                <h3 class="text-2xl font-bold text-gray-800 mb-4 border-t pt-4">Residuos a Recolectar</h3>
+                <div id="items-container" class="space-y-4 mb-4">
+                    <!-- Los items del pedido se agregarán aquí -->
+                </div>
+                <button type="button" id="btn-agregar-item" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg mb-6">Añadir Residuo</button>
+
+                <!-- Botón de Envío -->
+                <button type="submit" class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-lg text-lg">Confirmar y Enviar Pedido</button>
+            </form>
+            <div id="form-response" class="mt-6 p-4 rounded-lg text-center font-semibold hidden"></div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // --- NAVEGACIÓN ENTRE VISTAS ---
+        const views = document.querySelectorAll('.view');
+        const btnConsultar = document.getElementById('btn-consultar');
+        const btnSolicitar = document.getElementById('btn-solicitar');
+        const btnsVolver = document.querySelectorAll('.btn-volver');
+
+        let residuosValidosCache = []; // Caché para no llamar a la API múltiples veces
+
+        function mostrarVista(vistaId) {
+            views.forEach(view => {
+                view.classList.remove('active');
+            });
+            const vistaActiva = document.getElementById(vistaId);
+            if (vistaActiva) {
+                vistaActiva.classList.add('active');
+            }
+        }
+
+        btnConsultar.addEventListener('click', () => {
+            cargarYMostrarResiduos();
+            mostrarVista('lista-residuos-view');
+        });
+
+        btnSolicitar.addEventListener('click', () => {
+            iniciarFormularioPedido();
+            mostrarVista('formulario-pedido-view');
+        });
+
+        btnsVolver.forEach(btn => {
+            btn.addEventListener('click', () => mostrarVista('main-view'));
+        });
+
+        // --- LÓGICA PARA "CONSULTAR RESIDUOS" ---
+        const residuosContainer = document.getElementById('residuos-container');
+
+        async function fetchResiduosValidos() {
+            if (residuosValidosCache.length > 0) {
+                return residuosValidosCache;
+            }
+            try {
+                const response = await fetch('/api/validos');
+                if (!response.ok) {
+                    throw new Error(`Error del servidor: ${response.status}`);
+                }
+                const data = await response.json();
+
+                // --- LÍNEA DE DEPURACIÓN AÑADIDA ---
+                // Esto te mostrará la estructura del primer residuo para que verifiques los nombres de las propiedades.
+                if (data.length > 0) {
+                    console.log('Estructura del residuo recibido:', data[0]);
+                }
+                // ------------------------------------
+
+                residuosValidosCache = data;
+                return data;
+            } catch (error) {
+                console.error('Error al obtener residuos:', error);
+                residuosContainer.innerHTML = `<p class="text-red-500 col-span-full">No se pudieron cargar los residuos. Por favor, intente más tarde.</p>`;
+                return [];
+            }
+        }
+
+        async function cargarYMostrarResiduos() {
+            residuosContainer.innerHTML = `<p class="text-gray-500 col-span-full">Cargando residuos...</p>`;
+            const residuos = await fetchResiduosValidos();
+
+            residuosContainer.innerHTML = '';
+            if (residuos.length === 0) {
+                residuosContainer.innerHTML = `<p class="text-gray-500 col-span-full">No hay residuos válidos disponibles en este momento.</p>`;
+                return;
+            }
+
+            residuos.forEach(residuo => {
+                const card = document.createElement('div');
+                card.className = 'bg-gray-50 p-6 rounded-lg border border-gray-200';
+                card.innerHTML = `
+                    <h4 class="font-bold text-xl text-blue-700">${residuo.nombre}</h4>
+                    <p class="text-gray-600 mt-2">${residuo.descripcion}</p>
+                    <p class="text-sm text-gray-400 mt-4">Código: ${residuo.codigo}</p>
+                `;
+                residuosContainer.appendChild(card);
+            });
+        }
+
+        // --- LÓGICA PARA "SOLICITAR RECOLECCIÓN" (CÓDIGO MEJORADO) ---
+        const form = document.getElementById('pedido-form');
+        const itemsContainer = document.getElementById('items-container');
+        const btnAgregarItem = document.getElementById('btn-agregar-item');
+        const formResponse = document.getElementById('form-response');
+
+        async function iniciarFormularioPedido() {
+            await fetchResiduosValidos();
+            itemsContainer.innerHTML = '';
+            agregarItemFormulario();
+        }
+
+        function agregarItemFormulario() {
+            const itemDiv = document.createElement('div');
+            itemDiv.className = 'item-row flex items-center gap-4 p-4 bg-gray-100 rounded-lg';
+
+            const select = document.createElement('select');
+            select.className = 'residuo-select flex-grow p-3 border border-gray-300 rounded-lg';
+
+            // Opción por defecto
+            const defaultOption = document.createElement('option');
+            defaultOption.value = "";
+            defaultOption.textContent = "-- Seleccione un residuo --";
+            select.appendChild(defaultOption);
+
+            // Llenar con residuos válidos
+            residuosValidosCache.forEach(r => {
+                const option = document.createElement('option');
+                // IMPORTANTE: Aquí se asume que la propiedad se llama 'id'.
+                // Si el console.log muestra otro nombre, cámbialo aquí (ej: r.residuoId)
+                option.value = r.id;
+                option.textContent = r.nombre;
+                select.appendChild(option);
+            });
+
+            const inputCantidad = document.createElement('input');
+            inputCantidad.type = 'number';
+            inputCantidad.min = '1';
+            inputCantidad.className = 'cantidad-input w-24 p-3 border border-gray-300 rounded-lg';
+            inputCantidad.placeholder = 'Cant.';
+            inputCantidad.required = true;
+
+            const btnQuitar = document.createElement('button');
+            btnQuitar.type = 'button';
+            btnQuitar.textContent = 'Quitar';
+            btnQuitar.className = 'bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-3 rounded-lg';
+            btnQuitar.onclick = () => itemDiv.remove();
+
+            itemDiv.appendChild(select);
+            itemDiv.appendChild(inputCantidad);
+            itemDiv.appendChild(btnQuitar);
+            itemsContainer.appendChild(itemDiv);
+        }
+
+        btnAgregarItem.addEventListener('click', agregarItemFormulario);
+
+        form.addEventListener('submit', async (event) => {
+            event.preventDefault();
+
+            const items = [];
+            const itemRows = document.querySelectorAll('.item-row');
+            itemRows.forEach(row => {
+                const residuoId = row.querySelector('.residuo-select').value;
+                const cantidad = row.querySelector('.cantidad-input').value;
+                if (residuoId && cantidad > 0) {
+                    items.push({
+                        residuoId: parseInt(residuoId),
+                        cantidad: parseInt(cantidad)
+                    });
+                }
+            });
+
+            if (items.length === 0) {
+                alert("Por favor, agregue al menos un residuo al pedido.");
+                return;
+            }
+
+            const pedidoData = {
+                usuarioId: parseInt(document.getElementById('usuarioId').value),
+                direccionCalle: document.getElementById('direccionCalle').value,
+                direccionNumero: parseInt(document.getElementById('direccionNumero').value),
+                direccionBarrio: document.getElementById('direccionBarrio').value,
+                direccionCodPostal: document.getElementById('direccionCodPostal').value,
+                items: items
+            };
+
+            console.log('JSON a enviar:', JSON.stringify(pedidoData, null, 2));
+
+            formResponse.classList.remove('hidden', 'bg-green-100', 'text-green-800', 'bg-red-100', 'text-red-800');
+            formResponse.textContent = 'Enviando pedido...';
+            formResponse.classList.add('bg-blue-100', 'text-blue-800', 'block');
+
+            try {
+                const response = await fetch('/pedidos', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(pedidoData)
+                });
+
+                if (!response.ok) {
+                    const errorText = await response.text();
+                    throw new Error(errorText || `Error del servidor: ${response.status}`);
+                }
+
+                const result = await response.json();
+
+                formResponse.classList.remove('bg-blue-100', 'text-blue-800');
+                formResponse.classList.add('bg-green-100', 'text-green-800');
+                formResponse.textContent = `¡Pedido creado con éxito! ID de seguimiento: ${result.id}`;
+                form.reset();
+                itemsContainer.innerHTML = '';
+                agregarItemFormulario();
+
+            } catch(error) {
+                formResponse.classList.remove('bg-blue-100', 'text-blue-800');
+                formResponse.classList.add('bg-red-100', 'text-red-800');
+                formResponse.textContent = `Error: ${error.message}`;
+            }
+        });
+    });
+</script>
 </body>
 </html>
+
+

@@ -45,10 +45,8 @@ public class PedidoService {
         // 3. Crear items
         List<ItemPedido> items = new ArrayList<>();
         for (ItemRequestDTO itemDTO : request.getItems()) {
-            Residuo residuo = residuoDao.getResiduos().stream()
-                    .filter(r -> r.getId().equals(itemDTO.getResiduoId()))
-                    .findFirst()
-                    .orElseThrow(() -> new IllegalArgumentException("Residuo no encontrado"));
+            Residuo residuo = residuoDao.findById(itemDTO.getResiduoId())
+                    .orElseThrow(() -> new IllegalArgumentException("Residuo no encontrado con ID: " + itemDTO.getResiduoId()));
 
             if (!residuo.isEs_valido()) {
                 throw new IllegalArgumentException("Residuo no válido: " + residuo.getNombre());

@@ -21,7 +21,7 @@ public class ResiduoService {
             List<Residuo> residuosValidos = residuoDao.listarValidos();
 
             List<ResiduoDTO> res = residuosValidos.stream()
-                    .map(r -> new ResiduoDTO(r.getNombre(), r.getCodigo()))
+                    .map(r -> new ResiduoDTO(r.getId(), r.getDescripcion(),r.getNombre() ,r.getCodigo() ))
                     .toList();
             return ResponseEntity.ok(res);
         } catch (Exception e) {
