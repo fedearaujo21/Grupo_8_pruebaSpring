@@ -6,6 +6,30 @@
     <title>TecnoRAEE - Plataforma de Gestión</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
+        .toast {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            color: white;
+            z-index: 9999;
+            opacity: 0;
+            transition: top 0.5s ease, opacity 0.5s ease;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        .toast.show {
+            top: 40px;
+            opacity: 1;
+        }
+
+
+        .toast.success { background-color: #28a745; }
+        .toast.error { background-color: #dc3545; }
+
         /* Estilos personalizados adicionales */
         body {
             background: linear-gradient(135deg, #e0eafc 0%, #cfdef3 100%);
@@ -129,6 +153,28 @@
             }
         }
 
+        // --- FUNCIÓN PARA MOSTRAR NOTIFICACIONES TOAST ---
+        function showToast(message, type = 'success', duration = 4000) {
+            const existingToast = document.querySelector('.toast');
+            if (existingToast) {
+                existingToast.remove();
+            }
+
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`; // e.g., 'toast success'
+            toast.textContent = message;
+
+            document.body.appendChild(toast);
+            setTimeout(() => {
+                toast.classList.add('show');
+            }, 100);
+
+            setTimeout(() => {
+                toast.classList.remove('show');
+                toast.addEventListener('transitionend', () => toast.remove());
+            }, duration);
+        }
+
         btnConsultar.addEventListener('click', () => {
             cargarYMostrarResiduos();
             mostrarVista('lista-residuos-view');
@@ -146,11 +192,28 @@
         // --- LÓGICA PARA "CONSULTAR RESIDUOS" ---
         const residuosContainer = document.getElementById('residuos-container');
 
+        function mostrarSkeletons() {
+            residuosContainer.innerHTML = ''; // Limpia el contenedor primero
+            const skeletonCardHTML = `
+                <div class="bg-gray-50 p-6 rounded-lg border border-gray-200 animate-pulse">
+                    <div class="h-6 bg-gray-300 rounded-md w-3/4 mb-4"></div>
+                    <div class="h-4 bg-gray-200 rounded-md w-full mb-2"></div>
+                    <div class="h-4 bg-gray-200 rounded-md w-5/6 mb-4"></div>
+                    <div class="h-3 bg-gray-200 rounded-md w-1/4"></div>
+                </div>
+            `;
+            // Repetimos el esqueleto 6 veces para llenar el espacio visualmente
+            for (let i = 0; i < 6; i++) {
+                residuosContainer.innerHTML += skeletonCardHTML;
+            }
+        }
+
         async function fetchResiduosValidos() {
             if (residuosValidosCache.length > 0) {
                 return residuosValidosCache;
             }
             try {
+                await new Promise(resolve => setTimeout(resolve, 800))
                 const response = await fetch('/api/validos');
                 if (!response.ok) {
                     throw new Error(`Error del servidor: ${response.status}`);
@@ -174,7 +237,8 @@
         }
 
         async function cargarYMostrarResiduos() {
-            residuosContainer.innerHTML = `<p class="text-gray-500 col-span-full">Cargando residuos...</p>`;
+            mostrarSkeletons();
+
             const residuos = await fetchResiduosValidos();
 
             residuosContainer.innerHTML = '';
@@ -268,6 +332,7 @@
             });
 
             if (items.length === 0) {
+                showToast("Por favor, agregue al menos un residuo.", 'error');
                 alert("Por favor, agregue al menos un residuo al pedido.");
                 return;
             }
@@ -303,9 +368,9 @@
 
                 const result = await response.json();
 
-                formResponse.classList.remove('bg-blue-100', 'text-blue-800');
-                formResponse.classList.add('bg-green-100', 'text-green-800');
-                formResponse.textContent = `¡Pedido creado con éxito! ID de seguimiento: ${result.id}`;
+                showToast(`¡Pedido creado con éxito! ID: ${result.id}`, 'success');
+
+                formResponse.classList.add('hidden');
                 form.reset();
                 itemsContainer.innerHTML = '';
                 agregarItemFormulario();
