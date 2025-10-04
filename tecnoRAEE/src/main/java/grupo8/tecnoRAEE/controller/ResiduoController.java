@@ -1,8 +1,5 @@
 package grupo8.tecnoRAEE.controller;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.List;
 
 
@@ -16,11 +13,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api")
-public class TecnoRAEEController {
+public class ResiduoController {
 
     private final ResiduoService service;
 
-    public TecnoRAEEController(ResiduoService service){
+    public ResiduoController(ResiduoService service){
         this.service = service;
     }
 

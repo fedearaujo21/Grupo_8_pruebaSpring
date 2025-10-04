@@ -58,7 +58,7 @@ public class PedidoService {
 
             ItemPedido item = new ItemPedido();
             System.out.println("el id es " +pedidoid);
-            item.setPedido(pedido);
+            item.setPedidoId(pedidoid);
             item.setResiduo(residuo);
             item.setCantidad(itemDTO.getCantidad());
 

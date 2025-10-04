@@ -39,15 +39,4 @@ public class UsuarioImp implements UsuarioDao {
         }
     }
 
-    @Override
-    public Usuario buscarPorEmail(String email) throws Exception {
-        String sql = "SELECT * FROM usuarios WHERE email = :email;";
-        try (Connection con = sql2o.open()) {
-            return con.createQuery(sql)
-                    .addParameter("email", email)
-                    .executeAndFetchFirst(Usuario.class);
-        } catch (Exception e) {
-            throw new Exception("Error buscando usuario por email", e);
-        }
-    }
 }
