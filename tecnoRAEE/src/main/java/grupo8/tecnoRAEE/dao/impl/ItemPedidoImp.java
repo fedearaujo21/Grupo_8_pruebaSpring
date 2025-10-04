@@ -22,7 +22,6 @@ public class ItemPedidoImp implements ItemPedidoDao {
         String sql = "SELECT * FROM items_pedido WHERE pedido_recoleccion_id = :pedidoId;";
         try (Connection con = sql2o.open()) {
             return con.createQuery(sql)
-                    .addParameter("pedidoId", pedidoId)
                     .executeAndFetch(ItemPedido.class);
         } catch (Exception e) {
             throw new Exception("Error listando items de pedido", e);
@@ -35,7 +34,7 @@ public class ItemPedidoImp implements ItemPedidoDao {
                 "VALUES (:pedidoId, :residuoId, :cantidad)";
         try (Connection con = sql2o.open()) {
             con.createQuery(sql)
-                    .addParameter("pedidoId", item.getPedido().getId())
+                    .addParameter("pedidoId", item.getPedidoId())
                     .addParameter("residuoId", item.getResiduo().getId())
                     .addParameter("cantidad", item.getCantidad())
                     .executeUpdate();
