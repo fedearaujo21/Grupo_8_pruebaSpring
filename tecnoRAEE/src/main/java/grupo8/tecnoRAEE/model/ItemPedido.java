@@ -7,5 +7,5 @@ public class ItemPedido {
     private Long id;
     private int cantidad;
     private Residuo residuo;
-    private Long pedidoId;
+    private Long pedido_recoleccion_id;
 }
