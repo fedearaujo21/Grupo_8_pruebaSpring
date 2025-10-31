@@ -6,7 +6,10 @@ import org.sql2o.Connection;
 import org.sql2o.Sql2o;
 import org.springframework.stereotype.Component;
 
+import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Component
 public class PedidoImp implements PedidoDao {
@@ -19,13 +22,56 @@ public class PedidoImp implements PedidoDao {
 
     @Override
     public List<PedidoRecoleccion> listarPedidos() throws Exception {
-        String sql = "SELECT * FROM pedidos_recoleccion;";
-        try (Connection con = sql2o.open()) {
-            return con.createQuery(sql).executeAndFetch(PedidoRecoleccion.class);
-        } catch (Exception e) {
-            throw new Exception("Error listando pedidos", e);
+            String sql = "SELECT * FROM pedidos_recoleccion;";
+
+            try (Connection con = sql2o.open()) {
+                List<Map<String, Object>> rows = con.createQuery(sql).executeAndFetchTable().asList();
+                List<PedidoRecoleccion> pedidos = new ArrayList<>();
+
+                for (Map<String, Object> row : rows) {
+                    PedidoRecoleccion p = new PedidoRecoleccion();
+
+                    Object idObj = row.get("id");
+                    if (idObj instanceof Number n) p.setId(n.longValue());
+
+                    Object userObj = row.get("usuario_id");
+                    if (userObj instanceof Number n) p.setUsuario_id(n.longValue());
+
+                    Object fechaObj = row.get("fecha");
+                    if (fechaObj instanceof Timestamp ts) {
+                        p.setFecha(ts);
+                    } else if (fechaObj instanceof java.util.Date d) {
+                        p.setFecha(new Timestamp(d.getTime()));
+                    }
+
+                    Object estadoObj = row.get("estado");
+                    if (estadoObj != null) p.setEstado(estadoObj.toString());
+
+                    Object calleObj = row.get("direccion_calle");
+                    if (calleObj != null) p.setDireccionCalle(calleObj.toString());
+
+                    Object numeroObj = row.get("direccion_numero");
+                    if (numeroObj instanceof Number n) {
+                        p.setDireccionNumero(String.valueOf(n.intValue()));
+                    } else if (numeroObj != null) {
+                        p.setDireccionNumero(numeroObj.toString());
+                    }
+
+                    Object barrioObj = row.get("direccion_barrio");
+                    if (barrioObj != null) p.setDireccionBarrio(barrioObj.toString());
+
+                    Object postalObj = row.get("direccion_cod_postal");
+                    if (postalObj != null) p.setDireccionCodPostal(postalObj.toString());
+
+                    pedidos.add(p);
+                }
+                return pedidos;
+            } catch (Exception e) {
+                throw new Exception("Error listando pedidos", e);
+            }
         }
-    }
+
+
 
     @Override
     public PedidoRecoleccion buscarPorId(Long id) throws Exception {
@@ -45,7 +91,7 @@ public class PedidoImp implements PedidoDao {
                 "VALUES (:usuario_id, :fecha, :estado, :direccion_calle, :direccion_numero, :direccion_barrio, :direccion_cod_postal)";
         try (Connection con = sql2o.open()) {
             Long pedidoid= con.createQuery(sql,true)
-                    .addParameter("usuario_id", pedido.getUsuario().getId())
+                    .addParameter("usuario_id", pedido.getUsuario_id())
                     .addParameter("fecha", pedido.getFecha())
                     .addParameter("estado", pedido.getEstado())
                     .addParameter("direccion_calle", pedido.getDireccionCalle())
