@@ -45,17 +45,15 @@ public class ResiduoImp implements ResiduoDao {
     }
 
     @Override
-    public Optional<Residuo> findById(Long id) {
+    public Residuo findById(Long id) {
         String sql = "SELECT * FROM residuos WHERE id = :id";
         try (Connection con = sql2o.open()) {
             // executeAndFetchFirst devuelve el objeto o null si no lo encuentra.
-            Residuo residuo = con.createQuery(sql)
+
+            return con.createQuery(sql)
                     .addParameter("id", id)
                     .executeAndFetchFirst(Residuo.class);
 
-            // Optional.ofNullable() crea un Optional vacío si el residuo es null,
-            // o un Optional con el residuo si fue encontrado.
-            return Optional.ofNullable(residuo);
         }
     }
 
