@@ -7,5 +7,5 @@ import java.util.Optional;
 public interface ResiduoDao {
     List<Residuo> listarValidos() throws Exception;
     List<Residuo> getResiduos();
-    Optional<Residuo> findById(Long id);
+    Residuo findById(Long id);
 }
