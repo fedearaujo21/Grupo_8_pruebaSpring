@@ -3,6 +3,7 @@ package grupo8.tecnoRAEE.dto;
 import grupo8.tecnoRAEE.model.PedidoRecoleccion;
 import lombok.Data;
 
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -12,7 +13,7 @@ public class PedidoResponseDTO {
     private Long id;
     private Long usuarioId;
     private String estado;
-    private Date fecha;
+    private Timestamp fecha;
     private String direccionCalle;
     private String direccionNumero;
     private String direccionBarrio;
@@ -22,7 +23,7 @@ public class PedidoResponseDTO {
     public static PedidoResponseDTO fromEntity(PedidoRecoleccion pedido) {
         PedidoResponseDTO dto = new PedidoResponseDTO();
         dto.setId(pedido.getId());
-        dto.setUsuarioId(pedido.getUsuario().getId());
+        dto.setUsuarioId(pedido.getUsuario_id());
         dto.setEstado(pedido.getEstado());
         dto.setFecha(pedido.getFecha());
         dto.setDireccionCalle(pedido.getDireccionCalle());
