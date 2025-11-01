@@ -21,6 +21,7 @@ public class PedidoService {
     private final UsuarioDao usuarioDao;
     private final ResiduoDao residuoDao;
     private final ItemPedidoDao itemPedidoDao;
+    private final EmailService emailService;
 
     public PedidoResponseDTO crearPedido(PedidoRequestDTO request) throws Exception {
         // 1. Buscar usuario
@@ -101,6 +102,10 @@ public class PedidoService {
 
         // 3. Guardar cambios en BD
         pedidoDao.actualizarEstado(pedido.getId(), nuevoEstado);
+        Usuario usuario = usuarioDao.buscarPorId(pedido.getUsuario_id());
+        if (usuario != null && usuario.getEmail() != null) {
+            emailService.enviarCambioEstado(usuario.getEmail(), nuevoEstado);
+        }
     }
 
 }
