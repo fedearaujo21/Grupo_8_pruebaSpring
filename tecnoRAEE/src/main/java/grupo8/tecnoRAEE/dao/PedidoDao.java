@@ -8,4 +8,5 @@ public interface PedidoDao {
     PedidoRecoleccion buscarPorId(Long id) throws Exception;
     Long guardar(PedidoRecoleccion pedido) throws Exception;
     List<PedidoRecoleccion> listarPorUsuario(Long usuarioId) throws Exception;
+    void actualizarEstado(Long id, String nuevoEstado) throws Exception;
 }

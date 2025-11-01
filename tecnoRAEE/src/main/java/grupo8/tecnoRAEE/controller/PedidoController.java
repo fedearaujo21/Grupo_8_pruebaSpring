@@ -44,4 +44,19 @@ public class PedidoController {
             return ResponseEntity.internalServerError().body(e);
         }
     }
+
+    @PostMapping("/cambiar_estado")
+    public ResponseEntity<?> cambiarEstadoPedido(
+            @RequestParam Long id,
+            @RequestParam String estado) {
+        try {
+            pedidoService.cambiarEstado(id, estado);
+            return ResponseEntity.ok("Estado actualizado correctamente");
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.internalServerError().body("Error actualizando estado del pedido");
+        }
+    }
 }

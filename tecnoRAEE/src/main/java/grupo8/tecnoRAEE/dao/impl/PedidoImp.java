@@ -77,13 +77,49 @@ public class PedidoImp implements PedidoDao {
     public PedidoRecoleccion buscarPorId(Long id) throws Exception {
         String sql = "SELECT * FROM pedidos_recoleccion WHERE id = :id;";
         try (Connection con = sql2o.open()) {
-            return con.createQuery(sql)
+            List<Map<String, Object>> rows = con.createQuery(sql)
                     .addParameter("id", id)
-                    .executeAndFetchFirst(PedidoRecoleccion.class);
+                    .executeAndFetchTable().asList();
+
+            if (rows.isEmpty()) return null;
+
+            Map<String, Object> row = rows.get(0);
+            PedidoRecoleccion p = new PedidoRecoleccion();
+
+            Object idObj = row.get("id");
+            if (idObj instanceof Number n) p.setId(n.longValue());
+
+            Object userObj = row.get("usuario_id");
+            if (userObj instanceof Number n) p.setUsuario_id(n.longValue());
+
+            Object fechaObj = row.get("fecha");
+            if (fechaObj instanceof java.time.LocalDateTime ldt) {
+                p.setFecha(java.sql.Timestamp.valueOf(ldt));
+            } else if (fechaObj instanceof java.util.Date d) {
+                p.setFecha(new java.sql.Timestamp(d.getTime()));
+            }
+
+            Object estadoObj = row.get("estado");
+            if (estadoObj != null) p.setEstado(estadoObj.toString());
+
+            Object calleObj = row.get("direccion_calle");
+            if (calleObj != null) p.setDireccionCalle(calleObj.toString());
+
+            Object numeroObj = row.get("direccion_numero");
+            if (numeroObj != null) p.setDireccionNumero(numeroObj.toString());
+
+            Object barrioObj = row.get("direccion_barrio");
+            if (barrioObj != null) p.setDireccionBarrio(barrioObj.toString());
+
+            Object postalObj = row.get("direccion_cod_postal");
+            if (postalObj != null) p.setDireccionCodPostal(postalObj.toString());
+
+            return p;
         } catch (Exception e) {
             throw new Exception("Error buscando pedido", e);
         }
     }
+
 
     @Override
     public Long guardar(PedidoRecoleccion pedido) throws Exception {
@@ -115,6 +151,19 @@ public class PedidoImp implements PedidoDao {
                     .executeAndFetch(PedidoRecoleccion.class);
         } catch (Exception e) {
             throw new Exception("Error listando pedidos por usuario", e);
+        }
+    }
+
+    @Override
+    public void actualizarEstado(Long id, String nuevoEstado) throws Exception {
+        String sql = "UPDATE pedidos_recoleccion SET estado = :estado WHERE id = :id";
+        try (Connection con = sql2o.open()) {
+            con.createQuery(sql)
+                    .addParameter("estado", nuevoEstado)
+                    .addParameter("id", id)
+                    .executeUpdate();
+        } catch (Exception e){
+            throw new Exception("Error actualizando estado del pedido", e);
         }
     }
 }

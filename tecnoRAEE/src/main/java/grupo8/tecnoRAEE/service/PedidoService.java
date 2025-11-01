@@ -89,5 +89,18 @@ public class PedidoService {
         return pedidos;
     }
 
+    public void cambiarEstado(Long id, String nuevoEstado) throws Exception {
+        // 1. Buscar pedido por ID
+        PedidoRecoleccion pedido = pedidoDao.buscarPorId(id);
+        if (pedido == null) {
+            throw new IllegalArgumentException("Pedido no encontrado con ID: " + id);
+        }
+
+        // 2. Actualizar el estado
+        pedido.setEstado(nuevoEstado);
+
+        // 3. Guardar cambios en BD
+        pedidoDao.actualizarEstado(pedido.getId(), nuevoEstado);
+    }
 
 }
