@@ -22,7 +22,7 @@ public class PedidoImp implements PedidoDao {
 
     @Override
     public List<PedidoRecoleccion> listarPedidos() throws Exception {
-            String sql = "SELECT * FROM pedidos_recoleccion;";
+            String sql = "SELECT * FROM pedidos_recoleccion WHERE UPPER(estado) LIKE '%PENDIENTE%'";
 
             try (Connection con = sql2o.open()) {
                 List<Map<String, Object>> rows = con.createQuery(sql).executeAndFetchTable().asList();
