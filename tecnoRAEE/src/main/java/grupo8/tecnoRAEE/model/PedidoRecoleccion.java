@@ -5,6 +5,8 @@ import java.sql.Timestamp;
 import java.util.List;
 
 @Data
+//Creamos una anotacion personalizada que nos sirva de referencia para hacer el insert reflexivo
+@Tabla(nombre = "pedidos_recoleccion")
 public class PedidoRecoleccion {
     private Long id;
     private Timestamp fecha;
