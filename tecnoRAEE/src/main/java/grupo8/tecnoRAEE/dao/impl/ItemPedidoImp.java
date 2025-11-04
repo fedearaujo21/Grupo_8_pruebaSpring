@@ -1,5 +1,6 @@
 package grupo8.tecnoRAEE.dao.impl;
 
+import grupo8.tecnoRAEE.dao.InsertDAO;
 import grupo8.tecnoRAEE.dao.ItemPedidoDao;
 import grupo8.tecnoRAEE.model.ItemPedido;
 import grupo8.tecnoRAEE.model.Residuo;
@@ -12,11 +13,12 @@ import java.util.List;
 import java.util.Map;
 
 @Component
-public class ItemPedidoImp implements ItemPedidoDao {
+public class ItemPedidoImp extends InsertDAO implements ItemPedidoDao {
 
     private final Sql2o sql2o;
 
     public ItemPedidoImp(Sql2o sql2o) {
+        super(sql2o);
         this.sql2o = sql2o;
     }
 
@@ -68,17 +70,7 @@ public class ItemPedidoImp implements ItemPedidoDao {
 
 
     @Override
-    public void guardar(ItemPedido item) throws Exception {
-        String sql = "INSERT INTO items_pedido (pedido_recoleccion_id, residuo_id, cantidad) " +
-                "VALUES (:pedidoId, :residuoId, :cantidad)";
-        try (Connection con = sql2o.open()) {
-            con.createQuery(sql)
-                    .addParameter("pedidoId", item.getPedido_recoleccion_id())
-                    .addParameter("residuoId", item.getResiduo().getId())
-                    .addParameter("cantidad", item.getCantidad())
-                    .executeUpdate();
-        } catch (Exception e) {
-            throw new Exception("Error guardando item de pedido", e);
-        }
+    public <T> void insertar(T item) throws Exception {
+        super.insertar(item);
     }
 }
