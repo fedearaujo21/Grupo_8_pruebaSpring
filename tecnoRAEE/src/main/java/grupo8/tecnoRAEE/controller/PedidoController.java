@@ -33,7 +33,6 @@ public class PedidoController {
         }
     }
 
-    @GetMapping("/listar")
     public ResponseEntity<?> listarPedidos() {
         try {
             List<PedidoRecoleccion> response = pedidoService.listarPedidos();

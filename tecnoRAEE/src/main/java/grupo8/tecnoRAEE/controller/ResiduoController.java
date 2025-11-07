@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/residuos")
 @RequiredArgsConstructor
 public class ResiduoController {
 
@@ -23,7 +23,6 @@ public class ResiduoController {
     private static final Logger registraLog = LoggerFactory.getLogger(ResiduoController.class);
 
 
-    @GetMapping("/validos")
     public ResponseEntity<List<ResiduoDTO>> getResiduosValidos() {
         registraLog.info("Listando residuos validos");
         return service.listarResiduosValidos();
