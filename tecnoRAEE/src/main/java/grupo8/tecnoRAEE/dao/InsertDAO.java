@@ -8,7 +8,7 @@ import org.sql2o.Sql2o;
 import java.lang.reflect.Field;
 
 
-public class InsertDAO {
+public abstract class InsertDAO {
 
     public InsertDAO(Sql2o sql2o){
         this.sql2o = sql2o;
@@ -17,16 +17,7 @@ public class InsertDAO {
     private final Sql2o sql2o;
 
 
-    public <T> Long insertar_key(T entidad) throws Exception {
-        return ejecutarInsert(entidad);
-    }
-
-
-    public <T> void insertar(T entidad) throws Exception {
-        ejecutarInsert(entidad);
-    }
-
-    private <T> Long ejecutarInsert(T model) throws Exception {
+    public <T> Long insertar(T model) throws Exception {
         Class<?> clase = model.getClass();
 
         Field[] campos = clase.getFields();

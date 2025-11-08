@@ -39,7 +39,7 @@ public class PedidoService {
         pedido.setDireccionCodPostal(request.getDireccionCodPostal());
 
         // Guardar pedido en BD y devolvemos el id del pedido
-        Long pedidoid = pedidoDao.insertar_key(pedido);
+        Long pedidoid = pedidoDao.insertar(pedido);
 
         //seteamos el id generado para cargar en el item
         pedido.setId(pedidoid);

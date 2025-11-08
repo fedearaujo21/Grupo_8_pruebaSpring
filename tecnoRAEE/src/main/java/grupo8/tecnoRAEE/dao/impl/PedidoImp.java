@@ -122,8 +122,8 @@ public class PedidoImp extends InsertDAO implements PedidoDao {
         }
     }
 
-    public <T> Long insertar_key(T pedido) throws Exception {
-        return super.insertar_key(pedido);
+    public <T> Long insertar(T pedido) throws Exception {
+        return super.insertar(pedido);
     }
 
     @Override

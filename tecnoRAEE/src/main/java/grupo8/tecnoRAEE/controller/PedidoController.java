@@ -13,14 +13,13 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/pedidos")
 @RequiredArgsConstructor
 public class PedidoController {
 
     private final PedidoService pedidoService;
     private static final Logger registraLog = LoggerFactory.getLogger(PedidoController.class);
 
-    @PostMapping
+    @PostMapping("/pedidos")
     public ResponseEntity<?> crearPedido(@RequestBody PedidoRequestDTO request) {
         try {
             PedidoResponseDTO response = pedidoService.crearPedido(request);
@@ -32,7 +31,7 @@ public class PedidoController {
             return ResponseEntity.internalServerError().body("Error creando pedido");
         }
     }
-
+    @GetMapping("/pedidos")
     public ResponseEntity<?> listarPedidos() {
         try {
             List<PedidoRecoleccion> response = pedidoService.listarPedidos();
@@ -44,7 +43,7 @@ public class PedidoController {
         }
     }
 
-    @PostMapping("/cambiar_estado")
+    @PostMapping("/pedidos/cambiar_estado")
     public ResponseEntity<?> cambiarEstadoPedido(
             @RequestParam Long id,
             @RequestParam String estado) {

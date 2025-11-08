@@ -70,7 +70,7 @@ public class ItemPedidoImp extends InsertDAO implements ItemPedidoDao {
 
 
     @Override
-    public <T> void insertar(T item) throws Exception {
-        super.insertar(item);
+    public <T> Long insertar(T item) throws Exception {
+        return super.insertar(item);
     }
 }

@@ -5,5 +5,5 @@ import java.util.List;
 
 public interface ItemPedidoDao {
     List<ItemPedido> listarItemsPorPedido(Long pedidoId) throws Exception;
-    <T> void insertar(T item) throws Exception;
+    <T> Long insertar(T item) throws Exception;
 }
